@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecommerce</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+     <!-- Tailwind CSS (CDN / JIT) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // (Optional) Tailwind tweaks
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+            },
+            boxShadow: {
+              soft: "0 10px 24px -12px rgba(0,0,0,.25)",
+            },
+          },
+        },
+      };
+    </script>
+
+
+</head>
+<body class="min-h-screen bg-[var(--bg)] text-[var(--text)] antialiased">
+     <!-- ===== Navbar ===== -->
+    <header class="sticky top-0 z-50 border-b border-white/10 bg-[var(--surface)]/95 backdrop-blur">
+      <!-- Top row -->
+      <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:py-4">
+        <!-- Brand -->
+        <a href="#" class="flex items-center gap-2">
+          <span
+            class="inline-block rounded-xl bg-[var(--primary)] px-2.5 py-1 text-xs font-semibold tracking-wide text-white"
+            >Group</span
+          >
+          <span
+            class="hidden text-lg font-bold text-[var(--text)]/90 sm:inline"
+            >Project</span
+          >
+        </a>
+
+        <!-- Search (desktop) -->
+        <div class="hidden flex-1 px-6 md:block">
+          <label class="relative block">
+            <input
+              type="search"
+              placeholder="Type and hit enter to search…"
+              class="w-full rounded-xl border border-[var(--secondary)]/35 bg-[var(--bg)] px-4 py-2.5 text-sm outline-none transition focus:border-[var(--primary)]"
+            />
+            <svg
+              class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 opacity-60"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-3.5-3.5"></path>
+            </svg>
+          </label>
+        </div>
+
+        <!-- Right controls -->
+        <div class="flex items-center gap-2">
+          <button
+            id="theme-toggle"
+            class="rounded-full p-2 hover:bg-[var(--secondary)]/20"
+            aria-label="Toggle theme"
+            title="Toggle light/dark"
+          >
+            <!-- icons swapped by JS -->
+            <svg id="icon-moon" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+              ></path>
+            </svg>
+            <svg id="icon-sun" class="hidden h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM12 2v3m0 14v3m10-10h-3M5 12H2m15.364 6.364-2.121-2.121M8.757 8.757 6.636 6.636m10.607 0-2.121 2.121M8.757 15.243l-2.121 2.121"
+              />
+            </svg>
+          </button>
+
+          <!-- Mobile menu button -->
+          <button
+            id="menu-toggle"
+            class="rounded-lg p-2 hover:bg-[var(--secondary)]/20 md:hidden "
+            aria-label="Open menu"
+            title="Open menu"
+          >
+            <i class="fa-solid fa-bars mt-6"></i>
+            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Bottom row: categories & badges -->
+      <div class="border-t border-white/10">
+        <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2">
+          <nav
+            class="hidden items-center gap-6 text-sm font-medium md:flex"
+            aria-label="Primary"
+          >
+            <a class="hover:text-[var(--primary)]" href="#">New Arrivals</a>
+            <a class="hover:text-[var(--primary)]" href="#">Best Sellers</a>
+            <a class="hover:text-[var(--primary)]" href="#">Women</a>
+            <a class="hover:text-[var(--primary)]" href="#">Men</a>
+            <a class="hover:text-[var(--primary)]" href="#">Kids</a>
+            <a class="hover:text-[var(--primary)]" href="#">Home & Décor</a>
+            <a class="hover:text-[var(--primary)]" href="#">Personal Care</a>
+            <a class="hover:text-[var(--primary)]" href="#">Travel Gear</a>
+          </nav>
+
+          <div class="ml-auto hidden items-center gap-3 md:flex">
+            <span
+              class="rounded-lg bg-[var(--accent)]/90 px-3 py-1 text-xs font-semibold text-white shadow-soft"
+              >MEGA SALE</span
+            >
+
+            <span
+              class="rounded-lg bg-[var(--secondary)]/30 px-3 py-1 text-xs font-semibold text-[var(--primary)]"
+              >FREE SHIPPING</span>
+            
+          </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <nav
+          id="mobile-menu"
+          class="hidden border-t border-white/10 px-4 pb-4 pt-2 md:hidden"
+          aria-label="Mobile"
+        >
+          <div class="mb-3">
+            <label class="relative block">
+              <input
+                type="search"
+                placeholder="Search…"
+                class="w-full rounded-xl border border-[var(--secondary)]/35 bg-[var(--bg)] px-4 py-2.5 text-sm outline-none transition focus:border-[var(--primary)]"
+              />
+              <svg
+                class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 opacity-60"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-3.5-3.5"></path>
+              </svg>
+            </label>
+          </div>
+          <ul class="grid gap-2 text-sm">
+            <li><a class="block rounded-lg px-3 py-2 hover:bg-[var(--secondary)]/15" href="#">New Arrivals</a></li>
+            <li><a class="block rounded-lg px-3 py-2 hover:bg-[var(--secondary)]/15" href="#">Best Sellers</a></li>
+            <li><a class="block rounded-lg px-3 py-2 hover:bg-[var(--secondary)]/15" href="#">Women</a></li>
+            <li><a class="block rounded-lg px-3 py-2 hover:bg-[var(--secondary)]/15" href="#">Men</a></li>
+            <li><a class="block rounded-lg px-3 py-2 hover:bg-[var(--secondary)]/15" href="#">Kids</a></li>
+            <li><a class="block rounded-lg px-3 py-2 hover:bg-[var(--secondary)]/15" href="#">Home & Décor</a></li>
+            <li><a class="block rounded-lg px-3 py-2 hover:bg-[var(--secondary)]/15" href="#">Personal Care</a></li>
+            <li><a class="block rounded-lg px-3 py-2 hover:bg-[var(--secondary)]/15" href="#">Travel Gear</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+
+    <section id="hero">
+        <div class="slide">
+            <h4>Exclusive Offer</h4>
+            <h2>Super Value Deals</h2>
+            <h1>On All Products</h1>
+            <p>Save more with coupons & up to 70% off!</p>
+            <button>Shop Now</button>
+        </div>
+
+         <div class="slide">
+            <h4>New Arrivals</h4>
+            <h2>Latest Trends</h2>
+            <h1>Fresh Collection</h1>
+            <p>Upgrade your wardrobe with new fashion!</p>
+            <button>Shop Now</button>
+        </div>
+
+        <div class="slide">
+            <h4>Hot Sale</h4>
+            <h2>Big Discounts</h2>
+            <h1>Up to 70% Off</h1>
+            <p>Don’t miss out on our exclusive offers!</p>
+            <button>Shop Now</button>
+        </div>
+    </section>
+
+
+    <!-- feature -->
+
+    <section id="feature" class="section-p1">
+        <div class="fe-box">
+            <img src="image/features/f1.png" alt="">
+            <h6>Free Shipping</h6>
+        </div>
+        <div class="fe-box">
+            <img src="image/features/f2.png" alt="">
+            <h6>Online Order</h6>
+        </div>
+        <div class="fe-box">
+            <img src="image/features/f3.png" alt="">
+            <h6>Save money</h6>
+        </div>
+        <div class="fe-box">
+            <img src="image/features/f4.png" alt="">
+            <h6>Promotions</h6>
+        </div>
+        <div class="fe-box">
+            <img src="image/features/f5.png" alt="">
+            <h6>Happy Sell</h6>
+        </div>
+         <div class="fe-box">
+            <img src="image/features/f6.png" alt="">
+            <h6>F24/7 Support</h6>
+        </div>
+    </section>
+
+<!-- Products -->
+
+  <section id="Products1" class="section-p1">
+    <h2>Featured Products</h2>
+    <p>Summer Collection New Modern Design</p>
+    <div class="pro-container">
+        <div class="pro">
+            <img src="image/products/f1.jpg" alt="">
+            <div class="des">
+                <span>adidas</span>
+                <h5>Cartoon Astronaut T-Shirts</h5>
+                <div class="star">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <h4>Rs.3500.00</h4>
+            </div>
+            <div class="cart">
+                <a href="#"><i class="fa-solid fa-cart-plus"></i></a>
+            </div> 
+        </div>
+
+        <div class="pro">
+            <img src="image/products/f2.jpg" alt="">
+            <div class="des">
+                <span>adidas</span>
+                <h5>Cartoon Astronaut T-Shirts</h5>
+                <div class="star">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <h4>Rs.3500.00</h4>
+            </div>
+            <div class="cart">
+                <a href="#"><i class="fa-solid fa-cart-plus"></i></a>
+            </div> 
+        </div>
+
+        <div class="pro">
+            <img src="image/products/f3.jpg" alt="">
+            <div class="des">
+                <span>adidas</span>
+                <h5>Cartoon Astronaut T-Shirts</h5>
+                <div class="star">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <h4>Rs.3500.00</h4>
+            </div>
+            <div class="cart">
+                <a href="#"><i class="fa-solid fa-cart-plus"></i></a>
+            </div> 
+        </div>
+
+        <div class="pro">
+            <img src="image/products/f4.jpg" alt="">
+            <div class="des">
+                <span>adidas</span>
+                <h5>Cartoon Astronaut T-Shirts</h5>
+                <div class="star">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <h4>Rs.3500.00</h4>
+            </div>
+            <div class="cart">
+                <a href="#"><i class="fa-solid fa-cart-plus"></i></a>
+            </div> 
+        </div>
+
+        <div class="pro">
+            <img src="image/products/f5.jpg" alt="">
+            <div class="des">
+                <span>adidas</span>
+                <h5>Cartoon Astronaut T-Shirts</h5>
+                <div class="star">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <h4>Rs.3500.00</h4>
+            </div>
+            <div class="cart">
+                <a href="#"><i class="fa-solid fa-cart-plus"></i></a>
+            </div> 
+        </div>
+
+        <div class="pro">
+            <img src="image/products/f6.jpg" alt="">
+            <div class="des">
+                <span>adidas</span>
+                <h5>Cartoon Astronaut T-Shirts</h5>
+                <div class="star">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <h4>Rs.3500.00</h4>
+            </div>
+            <div class="cart">
+                <a href="#"><i class="fa-solid fa-cart-plus"></i></a>
+            </div> 
+        </div>
+
+        <div class="pro">
+            <img src="image/products/f7.jpg" alt="">
+            <div class="des">
+                <span>adidas</span>
+                <h5>Cartoon Astronaut T-Shirts</h5>
+                <div class="star">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <h4>Rs.3500.00</h4>
+            </div>
+            <div class="cart">
+                <a href="#"><i class="fa-solid fa-cart-plus"></i></a>
+            </div> 
+        </div>
+
+        <div class="pro">
+            <img src="image/products/f8.jpg" alt="">
+            <div class="des">
+                <span>adidas</span>
+                <h5>Cartoon Astronaut T-Shirts</h5>
+                <div class="star">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <h4>Rs.3500.00</h4>
+            </div>
+            <div class="cart">
+                <a href="#"><i class="fa-solid fa-cart-plus"></i></a>
+            </div> 
+        </div>
+    </div>
+   </section>
+
+   <!-- banner -->
+
+   <section id="banner" class="section-m1">
+        <h4>Repair Services</h4>
+        <h2>Up To <span>70% off</span> - All t-Shirts & Accessories</h2>
+        <button class="normal">Explore More</button>
+   </section>
+
+<!-- Products2 -->
+   
+   <section id="Products1" class="section-p1">
+    <h2>New Arrivals</h2>
+    <p>Summer Collection New Modern Design</p>
+    <div class="pro-container">
+        <div class="pro">
+            <img src="image/products/n1.jpg" alt="">
+            <div class="des">
+                <span>adidas</span>
+                <h5>Cartoon Astronaut T-Shirts</h5>
+                <div class="star">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <h4>Rs.3500.00</h4>
+            </div>
+            <div class="cart">
+                <a href="#"><i class="fa-solid fa-cart-plus"></i></a>
+            </div> 
+        </div>
+
+        <div class="pro">
+            <img src="image/products/n2.jpg" alt="">
+            <div class="des">
+                <span>adidas</span>
+                <h5>Cartoon Astronaut T-Shirts</h5>
+                <div class="star">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <h4>Rs.3500.00</h4>
+            </div>
+            <div class="cart">
+                <a href="#"><i class="fa-solid fa-cart-plus"></i></a>
+            </div> 
+        </div>
+
+        <div class="pro">
+            <img src="image/products/n3.jpg" alt="">
+            <div class="des">
+                <span>adidas</span>
+                <h5>Cartoon Astronaut T-Shirts</h5>
+                <div class="star">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <h4>Rs.3500.00</h4>
+            </div>
+            <div class="cart">
+                <a href="#"><i class="fa-solid fa-cart-plus"></i></a>
+            </div> 
+        </div>
+
+        <div class="pro">
+            <img src="image/products/n4.jpg" alt="">
+            <div class="des">
+                <span>adidas</span>
+                <h5>Cartoon Astronaut T-Shirts</h5>
+                <div class="star">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <h4>Rs.3500.00</h4>
+            </div>
+            <div class="cart">
+                <a href="#"><i class="fa-solid fa-cart-plus"></i></a>
+            </div> 
+        </div>
+
+        <div class="pro">
+            <img src="image/products/n5.jpg" alt="">
+            <div class="des">
+                <span>adidas</span>
+                <h5>Cartoon Astronaut T-Shirts</h5>
+                <div class="star">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <h4>Rs.3500.00</h4>
+            </div>
+            <div class="cart">
+                <a href="#"><i class="fa-solid fa-cart-plus"></i></a>
+            </div> 
+        </div>
+
+        <div class="pro">
+            <img src="image/products/n6.jpg" alt="">
+            <div class="des">
+                <span>adidas</span>
+                <h5>Cartoon Astronaut T-Shirts</h5>
+                <div class="star">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <h4>Rs.3500.00</h4>
+            </div>
+            <div class="cart">
+                <a href="#"><i class="fa-solid fa-cart-plus"></i></a>
+            </div> 
+        </div>
+
+        <div class="pro">
+            <img src="image/products/n7.jpg" alt="">
+            <div class="des">
+                <span>adidas</span>
+                <h5>Cartoon Astronaut T-Shirts</h5>
+                <div class="star">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <h4>Rs.3500.00</h4>
+            </div>
+            <div class="cart">
+                <a href="#"><i class="fa-solid fa-cart-plus"></i></a>
+            </div> 
+        </div>
+
+        <div class="pro">
+            <img src="image/products/n8.jpg" alt="">
+            <div class="des">
+                <span>adidas</span>
+                <h5>Cartoon Astronaut T-Shirts</h5>
+                <div class="star">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <h4>Rs.3500.00</h4>
+            </div>
+            <div class="cart">
+                <a href="#"><i class="fa-solid fa-cart-plus"></i></a>
+            </div> 
+        </div>
+    </div>
+   </section>
+
+
+   <!-- sm-banner -->
+
+   <section id="sm-banner" class="section-p1">
+    <div class="banner-box box1">
+        <h4>Crazy deals</h4>
+        <h2>Buy 1 get 1 free</h2>
+        <span>The best Classic dress is on sale at Cara</span>
+        <button class="white">Learn More</button>
+    </div>
+
+    <div class="banner-box box2">
+        <h4>Spring/Summer</h4>
+        <h2>Upcomming Season</h2>
+        <span>The best Classic dress is one sale at cara</span>
+        <button class="white">Collection</button>
+    </div>
+  </section>
+
+   <section id="banner3">
+        <div class="banner-box box1">
+            <h2>SEASONAL SALE</h2>
+            <h3>Winter Collection -50% OFF</h3>
+        </div>
+
+        <div class="banner-box box1">
+            <h2>NEW FOOTWEAR COLLECTION</h2>
+            <h3>Spring / Summer 2022</h3>
+        </div>
+
+        <div class="banner-box box1">
+            <h2>T-SHIRTS</h2>
+            <h3>New Trendy Prints</h3>
+        </div>
+   </section>
+
+   <section id="newsletter" class="section-p1" class="section-m1">
+    <div class="newstext">
+        <h4>sing up for Newslattes</h4>
+        <p>Get E-mail Updates about our latest Shop and <span> Special offers </span> </p>
+    </div>
+    <div class="form">
+        <input type="text" placeholder="Your Email Address">
+        <button class="normal">Sing Up</button>
+    </div>
+   
+</section>
+
+ <!-- ===== Footer ===== -->
+    <footer class="mt-16 bg-[var(--surface)] pt-12">
+      <div class="mx-auto grid max-w-7xl gap-10 px-4 md:grid-cols-4">
+        <!-- Brand info -->
+        <div>
+          <div class="text-xl font-bold text-[var(--primary)]">TeamPro</div>
+          <p class="mt-3 text-sm text-[var(--muted)]">
+            grop project is a modern e-commerce platform designed to provide a seamless shopping experience. Explore our wide range of products and enjoy exclusive offers.
+          </p>
+        </div>
+
+        <!-- Information -->
+        <div>
+          <h3 class="text-sm font-semibold tracking-wide">INFORMATION</h3>
+          <ul class="mt-3 space-y-2 text-sm">
+            <li><a class="hover:text-[var(--primary)]" href="#">FAQ</a></li>
+            <li><a class="hover:text-[var(--primary)]" href="#">Privacy Policy</a></li>
+            <li><a class="hover:text-[var(--primary)]" href="#">Delivery Details</a></li>
+            <li><a class="hover:text-[var(--primary)]" href="#">Return Policy</a></li>
+            <li><a class="hover:text-[var(--primary)]" href="#">Store Locations</a></li>
+          </ul>
+        </div>
+
+        <!-- Get in touch -->
+        <div>
+          <h3 class="text-sm font-semibold tracking-wide">GET IN TOUCH</h3>
+          <ul class="mt-3 space-y-2 text-sm">
+            <li><a class="hover:text-[var(--primary)]" href="#">Instagram</a></li>
+            <li><a class="hover:text-[var(--primary)]" href="#">Facebook</a></li>
+            <li><a class="hover:text-[var(--primary)]" href="#">WhatsApp</a></li>
+            <li><a class="hover:text-[var(--primary)]" href="#">TikTok</a></li>
+            <li class="text-[var(--muted)]">
+              #address. abc street, city, state, country. 
+            </li>
+          </ul>
+        </div>
+
+        <!-- Newsletter -->
+        <div>
+          <h3 class="text-sm font-semibold tracking-wide">SUBSCRIBE</h3>
+          <form class="mt-3 flex gap-2" onsubmit="return false;">
+            <label class="sr-only" for="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              placeholder="Email"
+              class="min-w-0 flex-1 rounded-xl border border-[var(--secondary)]/40 bg-[var(--bg)] px-3 py-2 text-sm outline-none focus:border-[var(--primary)]"
+              required
+            />
+            <button
+              class="rounded-xl bg-[var(--primary)] px-4 py-2 text-sm font-semibold text-white hover:opacity-90"
+            >
+              Subscribe
+            </button>
+          </form>
+          <p class="mt-3 text-xs text-[var(--muted)]">
+            By subscribing, you agree to receive emails from us.
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-10 border-t border-white/10">
+        <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-6 text-xs text-[var(--muted)]">
+          <p>© <span id="year"></span> our team. All rights reserved.</p>
+          <div class="flex items-center gap-2">
+            <span class="rounded-md bg-[var(--secondary)]/25 px-2 py-1">VISA</span>
+            <span class="rounded-md bg-[var(--secondary)]/25 px-2 py-1">Mastercard</span>
+            <span class="rounded-md bg-[var(--secondary)]/25 px-2 py-1">AMEX</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- App logic -->
+    <script src="script.js"></script>
+
+</body>
+</html>
